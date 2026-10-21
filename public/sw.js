@@ -1,8 +1,8 @@
-const CACHE_NAME = 'overthinkr-v2';
+const CACHE_NAME = 'overthinkr-v3';
 const APP_SHELL = [
-  '/Overthinkr/',
-  '/Overthinkr/manifest.webmanifest',
-  '/Overthinkr/overthinkr-icon.svg'
+  new URL('./', self.registration.scope).href,
+  new URL('manifest.webmanifest', self.registration.scope).href,
+  new URL('overthinkr-icon.svg', self.registration.scope).href
 ];
 
 self.addEventListener('install', (event) => {
@@ -26,7 +26,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  if (request.mode === 'navigate' && url.pathname.startsWith('/Overthinkr/')) {
+  if (request.mode === 'navigate' && url.pathname.startsWith(new URL('./', self.registration.scope).pathname)) {
     event.respondWith(
       fetch(request)
         .then((response) => {
@@ -36,7 +36,7 @@ self.addEventListener('fetch', (event) => {
           }
           return response;
         })
-        .catch(async () => (await caches.match(request)) || (await caches.match('/Overthinkr/')))
+        .catch(async () => (await caches.match(request)) || (await caches.match(new URL('./', self.registration.scope).href)))
     );
     return;
   }
