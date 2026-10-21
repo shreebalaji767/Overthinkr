@@ -32,7 +32,7 @@ self.addEventListener('fetch', (event) => {
         .then((response) => {
           if (response.ok) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put('/Overthinkr/', copy));
+            caches.open(CACHE_NAME).then((cache) => cache.put(new URL('./', self.registration.scope).href, copy));
           }
           return response;
         })
@@ -41,7 +41,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (url.pathname.startsWith('/Overthinkr/')) {
+  if (url.pathname.startsWith(new URL('./', self.registration.scope).pathname)) {
     event.respondWith(
       caches.match(request).then((cached) => cached || fetch(request).then((response) => {
         if (response.ok) caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
