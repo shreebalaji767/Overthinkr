@@ -96,3 +96,21 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid #a
 :root[data-theme="dark"] .mood-meter{background:#30312b;border-color:#3a3b34}
 @media(max-width:900px){.mood-check{padding:62px 7%}.mood-options{grid-template-columns:repeat(2,minmax(0,1fr))}.mood-result{grid-template-columns:1fr 1fr}.mood-result-copy{grid-column:1/-1}.mood-result .button{justify-self:stretch}}
 @media(max-width:480px){.mood-heading{align-items:flex-start;flex-direction:column}.mood-weather{text-align:left}.mood-option{min-height:110px;padding:12px}.mood-option.selected{padding:11px}.mood-result{padding:16px;gap:15px}.mood-result h3{font-size:17px}.mood-meter-wrap{grid-column:1/-1}.mood-result .button{grid-column:1/-1}}
+
+
+/* Upgrade: Thought Untangler reflection tool */
+.untangler-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:18px;align-items:start}
+.untangler-card>.tool-icon,.untangler-card>.eyebrow,.untangler-card>h2,.untangler-card>p,.untangler-card>.button,.untangler-card>.untangled-result,.untangler-card>.field-hint{grid-column:1/-1}
+.untangler-card>.tool-icon{margin-bottom:17px}
+.untangler-card>p{min-height:0;max-width:700px}
+.untangler-card label{margin-top:5px}
+.untangler-card textarea{margin-bottom:12px;min-height:76px}
+.untangler-card>.button{justify-self:start;margin-top:6px}
+.untangled-result{width:100%;margin-top:20px;padding:22px;background:#eff3e5;border:1px solid #d9e2c4;color:#303528}
+.untangled-result .eyebrow{display:block;margin-bottom:12px}
+.untangled-result h3{font:500 17px var(--serif);margin:17px 0 5px}
+.untangled-result p{font-size:12px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;margin:0}
+.untangled-result .text-button{margin-top:17px;padding:8px 0;text-decoration:underline;text-underline-offset:3px}
+.field-hint{font:9px var(--mono);color:var(--muted);line-height:1.7;margin-top:13px}
+:root[data-theme="dark"] .untangled-result{background:#303626;border-color:#4a5637;color:#e3edca}
+@media(max-width:760px){.untangler-card{grid-template-columns:1fr}.untangler-card>label,.untangler-card>textarea{grid-column:1/-1}.untangler-card>.button{justify-self:stretch}}
