@@ -152,3 +152,17 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid #a
 .saved-list-actions>span{font:8px var(--mono);letter-spacing:.6px;color:var(--muted)}
 .saved-list-actions .text-button{font-size:9px;white-space:nowrap}
 @media(max-width:430px){.saved-list-actions{align-items:flex-start;flex-direction:column;gap:5px}}
+
+
+/* Free offline question helper: no model calls or paid API */
+.question-helper-card{grid-column:1/-1}
+.question-helper-card>p{min-height:0;max-width:700px}
+.question-helper-card>label,.question-helper-card>textarea{width:100%}
+.question-answer{width:100%;margin-top:20px;padding:22px;background:var(--soft);border:1px solid var(--line);color:var(--ink)}
+.question-answer>.eyebrow{font:9px var(--mono);letter-spacing:.8px;color:var(--muted)}
+.question-answer h3{font:500 22px/1.25 var(--serif);margin:13px 0 8px}
+.question-answer>p,.question-follow p{font-size:12px;line-height:1.85;white-space:pre-wrap;margin:0;color:var(--ink)}
+.question-follow{border-top:1px solid var(--line);margin-top:17px;padding-top:15px}
+.question-follow strong{font:9px var(--mono);letter-spacing:.5px;display:block;margin-bottom:7px}
+.question-follow .text-button{margin-top:10px;text-decoration:underline;text-underline-offset:3px}
+:root[data-theme="dark"] .question-answer{background:#303626;border-color:#4a5637}
