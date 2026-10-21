@@ -10,17 +10,17 @@
     <meta property="og:title" content="Overthinkr — Think it over. Then overthink it." />
     <meta property="og:description" content="A safe, silly space for life's smallest decisions and biggest thought loops." />
     <meta property="og:site_name" content="Overthinkr" />
-    <link rel="manifest" href="%BASE_URL%manifest.webmanifest" />
-    <link rel="icon" href="%BASE_URL%overthinkr-icon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./overthinkr-icon.svg" type="image/svg+xml" />
     <title>Overthinkr — Think it over. Then overthink it.</title>
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="./src/main.jsx"></script>
     <script>
       if ('serviceWorker' in navigator && location.protocol === 'https:') {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('%BASE_URL%sw.js').catch((error) => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {
             console.info('Overthinkr offline support is unavailable in this browser session.');
           });
         });
