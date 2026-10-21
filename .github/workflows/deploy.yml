@@ -23,9 +23,23 @@ jobs:
         with:
           node-version: 22
       - name: Install dependencies
-        run: npm install
+        run: npm install --no-audit --no-fund
       - name: Build site
         run: npm run build
+      - name: Verify production output
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f dist/index.html
+          test -f dist/manifest.webmanifest
+          test -f dist/overthinkr-icon.svg
+          test -f dist/sw.js
+          grep -Eq 'src="/Overthinkr/assets/[^"]+\.js"' dist/index.html
+          if grep -Eq '(/src/main\.jsx|%BASE_URL%)' dist/index.html; then
+            echo "Build output contains unprocessed Vite source paths or placeholders."
+            exit 1
+          fi
+          echo "Production bundle and public assets verified."
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
