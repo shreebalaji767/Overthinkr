@@ -147,3 +147,8 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid #a
 :root[data-theme="dark"] .grounding-complete{background:#303626}
 @media(max-width:560px){.grounding-card{padding:22px 17px;margin-top:28px}.grounding-progress{align-items:flex-start;flex-direction:column;gap:8px}.grounding-progress-track{width:100%;flex:none}.grounding-step{align-items:flex-start;gap:10px}.grounding-step input{margin-top:2px}.grounding-tick{margin-top:-3px}.grounding-actions{align-items:stretch;flex-direction:column;gap:6px}.grounding-actions .button{width:100%}.grounding-nudge{text-align:left}}
 @media(prefers-reduced-motion:reduce){.grounding-progress-track span{transition:none}}
+
+.saved-list-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:8px 0 12px;border-bottom:1px solid var(--line)}
+.saved-list-actions>span{font:8px var(--mono);letter-spacing:.6px;color:var(--muted)}
+.saved-list-actions .text-button{font-size:9px;white-space:nowrap}
+@media(max-width:430px){.saved-list-actions{align-items:flex-start;flex-direction:column;gap:5px}}
