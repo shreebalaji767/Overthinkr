@@ -35,6 +35,8 @@ jobs:
           test -f dist/overthinkr-icon.svg
           test -f dist/sw.js
           grep -Eq 'src="/Overthinkr/assets/[^"]+\.js"' dist/index.html
+          grep -q 'href="/Overthinkr/manifest.webmanifest"' dist/index.html
+          grep -q 'href="/Overthinkr/overthinkr-icon.svg"' dist/index.html
           if grep -Eq '(/src/main\.jsx|%BASE_URL%)' dist/index.html; then
             echo "Build output contains unprocessed Vite source paths or placeholders."
             exit 1
