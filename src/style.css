@@ -114,3 +114,36 @@ button:focus-visible,a:focus-visible,textarea:focus-visible{outline:2px solid #a
 .field-hint{font:9px var(--mono);color:var(--muted);line-height:1.7;margin-top:13px}
 :root[data-theme="dark"] .untangled-result{background:#303626;border-color:#4a5637;color:#e3edca}
 @media(max-width:760px){.untangler-card{grid-template-columns:1fr}.untangler-card>label,.untangler-card>textarea{grid-column:1/-1}.untangler-card>.button{justify-self:stretch}}
+
+
+/* Upgrade: interactive sensory grounding and quick-reset card */
+.grounding-card{margin:38px 0 0;padding:clamp(22px,4vw,38px);background:var(--surface);border:1px solid var(--line);box-shadow:6px 6px 0 var(--line)}
+.grounding-card>.eyebrow{font:9px var(--mono);letter-spacing:1px;color:var(--muted)}
+.grounding-card h2{font:500 clamp(30px,4vw,43px)/1.12 var(--serif);letter-spacing:-1.6px;margin:17px 0 10px}
+.grounding-card h2 em{color:#85847a}
+.grounding-card>p:not(.grounding-complete):not(.grounding-nudge-result){font-size:12px;line-height:1.85;color:var(--muted);max-width:620px;margin:0}
+.grounding-progress{display:flex;align-items:center;gap:14px;margin:24px 0 13px}
+.grounding-progress-track{height:8px;flex:1;overflow:hidden;background:var(--soft);border:1px solid var(--line)}
+.grounding-progress-track span{display:block;height:100%;background:#a8c95e;transition:width .25s ease}
+.grounding-progress>span{font:9px var(--mono);white-space:nowrap;color:var(--muted)}
+.grounding-list{border-top:1px solid var(--line)}
+.grounding-step{display:flex;align-items:center;gap:14px;padding:16px 2px;border-bottom:1px solid var(--line);cursor:pointer}
+.grounding-step input{appearance:none;flex:0 0 19px;width:19px;height:19px;border:1px solid var(--muted);border-radius:50%;display:grid;place-items:center;margin:0;background:transparent}
+.grounding-step input:checked{background:#a8c95e;border-color:#a8c95e}
+.grounding-step input:checked:after{content:"✓";font:12px var(--mono);color:#20221b}
+.grounding-step-copy{display:grid;gap:5px;flex:1}
+.grounding-step-copy strong{font-size:12px;font-weight:600;color:var(--ink)}
+.grounding-step-copy small{font-size:11px;line-height:1.65;color:var(--muted)}
+.grounding-tick{font:17px var(--mono);color:var(--muted);padding:0 4px}
+.grounding-step.complete .grounding-step-copy strong{text-decoration:line-through;text-decoration-color:#a8c95e;color:var(--muted)}
+.grounding-step:focus-within{outline:2px solid #a8c95e;outline-offset:3px}
+.grounding-complete{padding:13px 15px;margin:16px 0 0;background:var(--soft);border-left:3px solid #a8c95e;font-size:12px;line-height:1.7;color:var(--ink)}
+.grounding-actions{display:flex;flex-wrap:wrap;align-items:center;gap:17px;margin-top:22px}
+.grounding-actions .button{font-size:9px}
+.grounding-nudge{background:transparent;border:0;padding:10px 0;color:var(--ink);font:10px var(--mono);text-decoration:underline;text-underline-offset:4px}
+.grounding-nudge-result{margin-top:19px!important;padding:15px 17px;border:1px dashed var(--line);font:11px/1.8 var(--mono)!important;color:var(--muted)!important;min-height:54px}
+:root[data-theme="dark"] .grounding-card{background:var(--surface);box-shadow:6px 6px 0 #3a3b34}
+:root[data-theme="dark"] .grounding-card h2 em{color:#aaa99f}
+:root[data-theme="dark"] .grounding-complete{background:#303626}
+@media(max-width:560px){.grounding-card{padding:22px 17px;margin-top:28px}.grounding-progress{align-items:flex-start;flex-direction:column;gap:8px}.grounding-progress-track{width:100%;flex:none}.grounding-step{align-items:flex-start;gap:10px}.grounding-step input{margin-top:2px}.grounding-tick{margin-top:-3px}.grounding-actions{align-items:stretch;flex-direction:column;gap:6px}.grounding-actions .button{width:100%}.grounding-nudge{text-align:left}}
+@media(prefers-reduced-motion:reduce){.grounding-progress-track span{transition:none}}
