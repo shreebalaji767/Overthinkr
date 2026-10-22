@@ -3,10 +3,18 @@ name: Deploy Overthinkr to GitHub Pages
 on:
   push:
     branches: [main]
+    paths:
+      - 'source-index.html'
+      - 'src/**'
+      - 'public/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'vite.config.js'
+      - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: overthinkr-pages-deploy
@@ -16,15 +24,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       pages: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Restore Vite source entry
+        run: cp source-index.html index.html
       - name: Install dependencies
         run: npm install --no-audit --no-fund
       - name: Build site
@@ -49,6 +61,21 @@ jobs:
             exit 1
           fi
           echo "Production bundle, manifest, icon, and service worker verified."
+      - name: Publish compiled files to branch root
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf assets
+          cp -a dist/. .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A -- index.html assets .nojekyll manifest.webmanifest overthinkr-icon.svg sw.js
+          if git diff --cached --quiet; then
+            echo "Compiled site is already up to date."
+          else
+            git commit -m "Publish compiled Overthinkr site"
+            git push origin HEAD:main
+          fi
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload Pages artifact
