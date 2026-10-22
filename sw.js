@@ -1,9 +1,17 @@
-const CACHE_NAME = 'overthinkr-v3';
+const CACHE_NAME = 'overthinkr-v4';
+const SCOPE_URL = new URL('./', self.registration.scope);
 const APP_SHELL = [
-  new URL('./', self.registration.scope).href,
-  new URL('manifest.webmanifest', self.registration.scope).href,
-  new URL('overthinkr-icon.svg', self.registration.scope).href
+  SCOPE_URL.href,
+  new URL('manifest.webmanifest', SCOPE_URL).href,
+  new URL('overthinkr-icon.svg', SCOPE_URL).href
 ];
+
+async function cacheResponse(request, response) {
+  if (!response || !response.ok || response.type === 'opaque') return;
+  // Clone exactly once before the response body can be consumed elsewhere.
+  const copy = response.clone();
+  await caches.open(CACHE_NAME).then((cache) => cache.put(request, copy)).catch(() => {});
+}
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -16,7 +24,9 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((key) => key.startsWith('overthinkr-') && key !== CACHE_NAME).map((key) => caches.delete(key))))
+      .then((keys) => Promise.all(keys
+        .filter((key) => key.startsWith('overthinkr-') && key !== CACHE_NAME)
+        .map((key) => caches.delete(key))))
       .then(() => self.clients.claim())
   );
 });
@@ -25,28 +35,37 @@ self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (!url.pathname.startsWith(SCOPE_URL.pathname)) return;
 
-  if (request.mode === 'navigate' && url.pathname.startsWith(new URL('./', self.registration.scope).pathname)) {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          if (response.ok) {
-            const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(new URL('./', self.registration.scope).href, copy));
-          }
-          return response;
-        })
-        .catch(async () => (await caches.match(request)) || (await caches.match(new URL('./', self.registration.scope).href)))
-    );
+  if (request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const response = await fetch(request);
+        if (response.ok) event.waitUntil(cacheResponse(SCOPE_URL.href, response));
+        return response;
+      } catch {
+        return (await caches.match(request)) || (await caches.match(SCOPE_URL.href)) ||
+          new Response('You are offline and this page is not cached yet.', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          });
+      }
+    })());
     return;
   }
 
-  if (url.pathname.startsWith(new URL('./', self.registration.scope).pathname)) {
-    event.respondWith(
-      caches.match(request).then((cached) => cached || fetch(request).then((response) => {
-        if (response.ok) caches.open(CACHE_NAME).then((cache) => cache.put(request, response.clone()));
-        return response;
-      }))
-    );
-  }
+  event.respondWith((async () => {
+    const cached = await caches.match(request);
+    if (cached) return cached;
+    try {
+      const response = await fetch(request);
+      if (response.ok) event.waitUntil(cacheResponse(request, response));
+      return response;
+    } catch {
+      return new Response('This resource is unavailable offline.', {
+        status: 503,
+        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+      });
+    }
+  })());
 });
