@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f8f7f4" />
+    <meta name="description" content="Overthinkr — a completely unnecessary amount of thought for life's smallest decisions. A playful space for thought loops, text decoding, and tiny doses of perspective." />
+    <meta name="color-scheme" content="light dark" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Overthinkr — Think it over. Then overthink it." />
+    <meta property="og:description" content="A safe, silly space for life's smallest decisions and biggest thought loops." />
+    <meta property="og:site_name" content="Overthinkr" />
+    <link rel="manifest" href="/Overthinkr/manifest.webmanifest" />
+    <link rel="icon" href="/Overthinkr/overthinkr-icon.svg" type="image/svg+xml" />
+    <title>Overthinkr — Think it over. Then overthink it.</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="./src/main.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator && location.protocol === 'https:') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/Overthinkr/sw.js').catch(() => {
+            console.info('Overthinkr offline support is unavailable in this browser session.');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
